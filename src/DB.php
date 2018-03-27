@@ -72,7 +72,7 @@ class DB extends Base
      * @param string $tableName 表名(不带表前缀)
      * @return string 表名(带前缀)
      */
-    public function getTable(string $tableName)
+    public function getTable($tableName)
     {
         return $this->tablePrefix.$tableName;
     }
