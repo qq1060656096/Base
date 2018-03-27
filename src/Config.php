@@ -54,7 +54,7 @@ class Config
      * @return mixed
      * @throws ConfigException 文件不存和键不存在都会跑出异常
      */
-    public static function get(string $name, string $fileName = 'bao-loan.yml')
+    public static function get($name, $fileName = 'bao-loan.yml')
     {
         $filePath = self::getDefaultFileDir().$fileName;
         $defaultPrefix = self::getDefaultPrefix();

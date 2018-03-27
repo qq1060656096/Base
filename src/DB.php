@@ -62,7 +62,7 @@ class DB extends Base
      *
      * @return \Doctrine\DBAL\Connection 数据库连接
      */
-    public function getConnection(): Connection
+    public function getConnection()
     {
         return $this->dbConnection;
     }
@@ -72,7 +72,7 @@ class DB extends Base
      * @param string $tableName 表名(不带表前缀)
      * @return string 表名(带前缀)
      */
-    public function getTable(string $tableName): string
+    public function getTable(string $tableName)
     {
         return $this->tablePrefix.$tableName;
     }
@@ -82,7 +82,7 @@ class DB extends Base
      *
      * @return DB 数据库实例
      */
-    public static function getInstance(): DB
+    public static function getInstance()
     {
         static $obj = null;
         if ($obj) {
@@ -98,7 +98,7 @@ class DB extends Base
      *
      * @return DebugStack
      */
-    public function enabledSqlLog(): void
+    public function enabledSqlLog()
     {
         if (!$this->sqlLogger) {
             $this->sqlLogger = new DebugStack();
@@ -112,7 +112,7 @@ class DB extends Base
      * @see \Zwei\Base\DB::enabledSqlLog()
      * @return array
      */
-    public function getLastRawSql(): array
+    public function getLastRawSql()
     {
         if (!$this->logger) {
 
