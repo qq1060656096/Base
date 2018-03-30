@@ -17,47 +17,59 @@ class Config
      * 默认配置文件路径
      * @var null
      */
-    private static $defaultFileDir = null;
+    protected $defaultFileDir = null;
     /**
      * 变量前缀,避免冲突
      * @var null
      */
-    private static $defaultPrefix = null;
+    protected $defaultPrefix = null;
+
     /**
      * 默认配置文件路径
      *
      * @return null|string
      */
-    public static function getDefaultFileDir()
+    public function getDefaultFileDir()
     {
-        if (!self::$defaultFileDir) {}
-            self::$defaultFileDir = ComposerVendor::getParentDir().'/config/';
-        return self::$defaultFileDir;
+        if (!$this->defaultFileDir)
+            $this->defaultFileDir = ComposerVendor::getParentDir().'/config/';
+        return $this->defaultFileDir;
     }
 
     /**
      * 变量前缀,避免冲突
      * @return string
      */
-    public static function getDefaultPrefix()
+    public function getDefaultPrefix()
     {
-        if (!self::$defaultPrefix)
-            self::$defaultPrefix = 'bao-loan';
-        return self::$defaultFileDir;
+        if (!$this->defaultPrefix)
+            $this->defaultPrefix = 'bao-loan';
+        return $this->defaultPrefix;
+    }
+
+    /**
+     * 设置默认前缀
+     * @param string $defaultPrefix
+     */
+    public function setDefaultPrefix($defaultPrefix)
+    {
+        $this->defaultPrefix = $defaultPrefix;
     }
 
     /**
      * 读取配置文件
-     *
      * @param string $name 名称
-     * @param string $fileName 文件名(默认: bao-loan.yml)
+     * @param string $defaultPrefix 前缀(默认前缀: 'bao-loan')
+     * @param string $fileName 文件名
      * @return mixed
      * @throws ConfigException 文件不存和键不存在都会跑出异常
      */
-    public static function get($name, $fileName = 'bao-loan.yml')
+    public function getValue($name, $defaultPrefix, $fileName)
     {
-        $filePath = self::getDefaultFileDir().$fileName;
-        $defaultPrefix = self::getDefaultPrefix();
+        $this->setDefaultPrefix($defaultPrefix);
+
+        $filePath = $this->getDefaultFileDir().$fileName;
+        $defaultPrefix = $this->getDefaultPrefix();
         if (!isset($_ENV[$defaultPrefix])) {
             if(!file_exists($filePath))
                 throw new ConfigException(sprintf('%s not found', $filePath));
@@ -72,5 +84,34 @@ class Config
             throw new ConfigException(sprintf('%s undefined key:%s ', $filePath, $name));
         }
         return $_ENV[$defaultPrefix][$name];
+    }
+
+    /**
+     * 获取对象实例
+     *
+     * @return Config 数据库实例
+     */
+    public static function getInstance()
+    {
+        static $obj = null;
+        if ($obj) {
+            return $obj;
+        }
+        $obj = new Config();
+        return $obj;
+    }
+
+    /**
+     * 读取配置文件
+     *
+     * @param string $name 名称
+     * @param string $defaultPrefix 前缀(默认前缀: 'bao-loan')
+     * @param string $fileName 文件名(默认: bao-loan.yml)
+     * @return mixed
+     * @throws ConfigException 文件不存和键不存在都会跑出异常
+     */
+    public static function get($name, $defaultPrefix = 'bao-loan', $fileName = 'bao-loan.yml')
+    {
+        return self::getInstance()->getValue($name, $defaultPrefix, $fileName);
     }
 }

@@ -1,0 +1,11 @@
+BASE_TEST_CONFIG: "base_test_config" # 本包测试键（单元测试用）
+
+# 数据库配置
+DB_HOST: "localhost" # 主机
+DB_PORT: 3306 # 端口
+DB_USER: "root" # 用户名
+DB_PASS: "root" # 密码
+DB_NAME: "demo" # 数据库名
+DB_TABLE_PREFIX: "" # 表前缀
+DB_CHARSET: "utf8" # 设置字符编码,空字符串不设置
+DB_SQLLOG: false # 是否启用sql调试

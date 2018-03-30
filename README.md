@@ -39,8 +39,14 @@ DB_SQLLOG: false # 是否启用sql调试
 
 ```php
 <?php
-// 读取配置
-\Zwei\Base\Config::get("配置键名");
+use \Zwei\Base\Config;
+// 读取默认配置"config\bao-loan.yml"
+Config::get("配置键名");
+
+// 读取配置文件"config/test-new-prefix.conf.yml"中的"test-new-prefix-key"
+Config::get('test-new-prefix-key', 'test-new-prefix', 'test-new-prefix.conf.yml');
+
+# 获取doctrine数据库连接
 // 返回\Doctrine\DBAL\Connection类,请查看doctrine 官网文档
 $dbConnection = DB::getInstance()->getConnection();
 ```
